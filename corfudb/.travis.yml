@@ -1,0 +1,19 @@
+language: java
+jdk:
+- oraclejdk8
+before_install:
+- sudo apt-get update -qq
+- travis_retry wget http://people.apache.org/~jfarrell/thrift/0.9.2/contrib/ubuntu/thrift-compiler_0.9.2_amd64.deb -O thrift-compiler.deb
+- sudo dpkg -i thrift-compiler.deb
+install:
+- which thrift
+- travis_retry mvn clean install
+after_success:
+- .travis_scripts/javadocs.sh
+script: mvn -e verify
+notifications:
+  email:
+  - corfudb-dev@googlegroups.com
+env:
+  global:
+    secure: WJZd15DtGSetu3HuaPE/Ap0EaPkR1D68ZUIFxyqUho8AY/rLGuANUrAY5U02jO1K1+iaYFMecRr2ZlOEK4N1XiBNz2gMnYmkHmUs9Gz+J3eA8SXdYOHsKyI5iRpyUgwzHIVLOKz03cvDlI04Rrm0Uhe/7hjNaXVge6I0YKPmiXI=
